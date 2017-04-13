@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Trade</string>
+
+    <string name="facebook_app_id">982004918601269</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>
