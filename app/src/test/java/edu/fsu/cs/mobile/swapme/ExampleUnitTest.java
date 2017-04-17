@@ -1,4 +1,4 @@
-package com.example.sebas.trade;
+package edu.fsu.cs.mobile.swapme;
 
 import org.junit.Test;
 

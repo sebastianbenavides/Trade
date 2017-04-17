@@ -1,4 +1,4 @@
-package com.example.sebas.trade;
+package edu.fsu.cs.mobile.swapme;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.sebas.trade", appContext.getPackageName());
+        assertEquals("edu.fsu.cs.mobile.swapme", appContext.getPackageName());
     }
 }

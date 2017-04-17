@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "880347561093",
+    "firebase_url": "https://swapme-a1143.firebaseio.com",
+    "project_id": "swapme-a1143",
+    "storage_bucket": "swapme-a1143.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880347561093:android:fe00a881f1f6e19e",
+        "android_client_info": {
+          "package_name": "edu.fsu.cs.mobile.swapme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880347561093-t09frn01qgfsl0fc1mg95uttaecff9mp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPr1nNXu_JgrfXNPZUSk7cpyuEOK6Tlog"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
