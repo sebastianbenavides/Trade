@@ -7,4 +7,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_upload">Upload</string>
+
+    <string name="camera">camera</string>
+    <string name="profile">profile</string>
+    <string name="timeline">timeline</string>
 </resources>
