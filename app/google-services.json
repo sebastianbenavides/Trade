@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "585528630451",
+    "firebase_url": "https://swap-me.firebaseio.com",
+    "project_id": "swap-me",
+    "storage_bucket": "swap-me.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585528630451:android:2e4247a685d2b75a",
+        "android_client_info": {
+          "package_name": "com.example.sebas.trade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585528630451-imtfr3rf303k4ks8d5drv49osoc7451v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUqjZtvWelMUHdy18PjZxmENLjhWjJe6I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
