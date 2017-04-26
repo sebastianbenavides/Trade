@@ -59,56 +59,8 @@ public class Upload extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
 
-//        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-//                findViewById(R.id.bottomNavView_Bar);
-//        BottomNavigationHelper.disableShiftMode(bottomNavigationView);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(
-//                new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                        switch (item.getItemId()){
-//                            default:
-//                                break;
-//                        }
-//
-//
-//
-//                        return false;
-//                    }
-//                });
-
-        mStorage = FirebaseStorage.getInstance().getReference();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Post");
-
-        itemName = (EditText) findViewById(R.id.itemName);
-        itemDescription = (EditText) findViewById(R.id.itemDescription);
-
-        image = (ImageButton) findViewById(R.id.imageButton);
-
-        upload = (Button) findViewById(R.id.uploadButton);
-
-        mProgress = new ProgressDialog(this);
-
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
-            }
-        });
-
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                startPosting();
-            }
-        });
-
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottomNavView_Bar);
+                findViewById(R.id.bottomNavView_Bar_Upload);
         BottomNavigationHelper.disableShiftMode(bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -125,6 +77,37 @@ public class Upload extends AppCompatActivity {
                         return false;
                     }
                 });
+
+        mStorage = FirebaseStorage.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Post");
+
+        itemName = (EditText) findViewById(R.id.itemName);
+        itemDescription = (EditText) findViewById(R.id.itemDescription);
+
+        image = (ImageButton) findViewById(R.id.imageButton);
+
+//        upload = (Button) findViewById(R.id.uploadButton);
+
+        mProgress = new ProgressDialog(this);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        });
+
+//        upload.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                startPosting();
+//            }
+//        });
+
+
     }
 
     private void startPosting() {

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/ic_camera"
-        android:icon="@drawable/ic_add_a_photo"
-        android:title="Add Item"
+        android:id="@+id/ic_upload"
+        android:icon="@drawable/ic_file_upload"
+        android:title="Upload"
         />
 
     <item
@@ -18,5 +17,4 @@
         android:icon="@drawable/ic_person_black"
         android:title="@string/profile"
         />
-
 </menu>

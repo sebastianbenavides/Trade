@@ -8,9 +8,9 @@
 
     <string name="title_activity_upload">Upload</string>
 
-    <string name="camera">camera</string>
-    <string name="profile">profile</string>
-    <string name="timeline">timeline</string>
+    <string name="camera">Post Item</string>
+    <string name="profile">Profile</string>
+    <string name="timeline">Timeline</string>
     <string name="upload">Upload</string>
     <string name="what_are_you_swapping">What are you swapping?</string>
     <string name="what_s_your_item_like">What\'s your item like?</string>
