@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "585528630451-gfuv8tsoc5mgllsp6ng3s3gldbak6p3s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sebas.trade",
+            "certificate_hash": "2e8c0ac703b445b1c68a82b331e18803d153885e"
+          }
+        },
+        {
           "client_id": "585528630451-imtfr3rf303k4ks8d5drv49osoc7451v.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585528630451-imtfr3rf303k4ks8d5drv49osoc7451v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

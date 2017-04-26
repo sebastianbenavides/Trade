@@ -4,9 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -14,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -23,10 +27,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
+
 public class Upload extends AppCompatActivity {
 
     private EditText itemName;
     private EditText itemDescription;
+
+    private RelativeLayout uploadLayout;
 
     private ImageView image;
 
@@ -40,6 +49,8 @@ public class Upload extends AppCompatActivity {
     private ProgressDialog mProgress;
 
     private Uri imageUri;
+
+    private String mCurrentPhotoPath;
 
 
     @Override
@@ -72,6 +83,8 @@ public class Upload extends AppCompatActivity {
         itemName = (EditText) findViewById(R.id.itemName);
         itemDescription = (EditText) findViewById(R.id.itemDescription);
 
+  //      uploadLayout = (RelativeLayout) findViewById(R.id.activity_upload);
+
         image = (ImageView) findViewById(R.id.imageButton);
 
 //        upload = (Button) findViewById(R.id.uploadButton);
@@ -81,9 +94,25 @@ public class Upload extends AppCompatActivity {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                File photoFile = null;
+
+                try {
+                    photoFile = createPhotoFile();
+                }
+                catch(IOException IOE) {
+                    IOE.printStackTrace();
+                }
+
+                if (photoFile != null) {
+                    imageUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.android.fileprovider", photoFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+                    startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                }
+
             }
         });
 
@@ -131,17 +160,15 @@ public class Upload extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
 
+      //      Picasso.with(Upload.this).load(imageUri).fit().centerCrop().into(image);
 
+            StorageReference filePath = mStorage.child("Photos").child(imageUri.getLastPathSegment());
 
-            imageUri = data.getData();
-
-            Picasso.with(Upload.this).load(imageUri).fit().centerCrop().into(image);
-
-      /*      StorageReference filePath = mStorage.child("Photos").child(imageUri.getLastPathSegment());
+      //      StorageReference filePath = mStorage.child("Photos");
 
             filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -155,8 +182,18 @@ public class Upload extends AppCompatActivity {
 
                     Toast.makeText(Upload.this, "Uploading Finished", Toast.LENGTH_LONG).show();
                 }
-            });*/
+            });
         }
     }
 
+    private File createPhotoFile() throws IOException {
+        String imageFileName = "tempPhoto_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imageFile = File.createTempFile(imageFileName, ".jpg", storageDir);
+
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
+
+        return imageFile;
+    }
 }
+
