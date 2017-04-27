@@ -155,6 +155,13 @@ public class Upload extends AppCompatActivity {
 
                     mProgress.dismiss();
 
+                    itemName.setText("");
+                    itemDescription.setText("");
+                    image.setImageResource(R.drawable.ic_add_a_photo_white_24dp);
+
+
+
+
                 }
             });
         }
