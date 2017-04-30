@@ -15,8 +15,11 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 
@@ -25,6 +28,8 @@ public class Timeline extends AppCompatActivity {
     private RecyclerView mTimeline;
 
     private DatabaseReference mDatabase;
+
+    private DatabaseReference mDatabaseUsers;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -40,7 +45,7 @@ public class Timeline extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null) {
-                    Intent loginIntent = new Intent(Timeline.this, RegisterActivity.class);
+                    Intent loginIntent = new Intent(Timeline.this, Login.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
 
@@ -49,6 +54,9 @@ public class Timeline extends AppCompatActivity {
         };
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Post");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        mDatabaseUsers.keepSynced(true);
 
         mTimeline = (RecyclerView) findViewById(R.id.timeline);
         mTimeline.setHasFixedSize(true);
@@ -109,6 +117,31 @@ public class Timeline extends AppCompatActivity {
 
         mTimeline.setAdapter(firebaseRecyclerAdapter);
 
+    }
+
+
+    private void checkUserExist() {
+
+        final String userID = mAuth.getCurrentUser().getUid();
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(!dataSnapshot.hasChild(userID)) {
+
+                    Intent setupIntent = new Intent(Timeline.this, Setup.class);
+                    setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(setupIntent);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {

@@ -26,7 +26,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null) {
-                    Intent loginIntent = new Intent(Profile.this, RegisterActivity.class);
+                    Intent loginIntent = new Intent(Profile.this, Login.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
 
