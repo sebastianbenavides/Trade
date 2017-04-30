@@ -100,20 +100,22 @@ public class Login extends AppCompatActivity {
 
     private void checkUserExist() {
 
-        final String userID = mAuth.getCurrentUser().getUid();
+        final String user_id = mAuth.getCurrentUser().getUid();
 
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(userID)) {
+                if(dataSnapshot.hasChild(user_id)) {
 
-                    Intent loginIntent = new Intent(Login.this, Timeline.class);
-                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(loginIntent);
+                    Intent timelineIntent = new Intent(Login.this, Timeline.class);
+                    timelineIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(timelineIntent);
 
                 } else {
-                    Toast.makeText(Login.this, "Need new account", Toast.LENGTH_SHORT).show();
+                    Intent setupIntent = new Intent(Login.this, Setup.class);
+                    setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(setupIntent);
                 }
             }
 

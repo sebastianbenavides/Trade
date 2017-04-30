@@ -41,6 +41,8 @@ public class Timeline extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         mAuth = FirebaseAuth.getInstance();
+
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -94,7 +96,11 @@ public class Timeline extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
+        checkUserExist();
+
         mAuth.addAuthStateListener(mAuthListener);
+
 
         FirebaseRecyclerAdapter<Post, PostViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
 
@@ -122,26 +128,35 @@ public class Timeline extends AppCompatActivity {
 
     private void checkUserExist() {
 
-        final String userID = mAuth.getCurrentUser().getUid();
+        final String user_id;
 
-        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        if(mAuth.getInstance().getCurrentUser() == null){
+            Intent loginIntent = new Intent(Timeline.this, Login.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+        } else{
 
-                if(!dataSnapshot.hasChild(userID)) {
+            user_id = mAuth.getCurrentUser().getUid();
 
-                    Intent setupIntent = new Intent(Timeline.this, Setup.class);
-                    setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(setupIntent);
+            mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if (!dataSnapshot.hasChild(user_id)) {
+
+                        Intent setupIntent = new Intent(Timeline.this, Setup.class);
+                        setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(setupIntent);
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+            });
+        }
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
