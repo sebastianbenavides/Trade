@@ -51,7 +51,7 @@
         </provider>
 
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".Profile"></activity>
     </application>
 
 </manifest>

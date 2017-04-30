@@ -72,12 +72,10 @@ public class Timeline extends AppCompatActivity {
                                 startActivity(timelineIntent);
                                 break;
                             case R.id.ic_user_profile:
-                                Intent profileIntent = new Intent(Timeline.this, ProfileActivity.class);
+                                Intent profileIntent = new Intent(Timeline.this, Profile.class);
                                 startActivity(profileIntent);
                                 break;
                         }
-
-
 
                         return false;
                     }
