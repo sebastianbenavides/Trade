@@ -69,6 +69,10 @@ public class Upload extends AppCompatActivity {
                         switch (item.getItemId()){
                             case R.id.ic_upload:
                                 startPosting();
+                            case R.id.ic_timeline:
+                                Intent timelineIntent = new Intent(Upload.this, Timeline.class);
+                                startActivity(timelineIntent);
+                                break;
                             default:
                                 break;
                         }

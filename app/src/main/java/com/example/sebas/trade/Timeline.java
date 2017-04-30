@@ -47,8 +47,12 @@ public class Timeline extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.ic_camera:
-                                Intent intent = new Intent(Timeline.this, Upload.class);
-                                startActivity(intent);
+                                Intent uploadIntent = new Intent(Timeline.this, Upload.class);
+                                startActivity(uploadIntent);
+                                break;
+                            case R.id.ic_timeline:
+                                Intent timelineIntent = new Intent(Timeline.this, Timeline.class);
+                                startActivity(timelineIntent);
                                 break;
                         }
 
