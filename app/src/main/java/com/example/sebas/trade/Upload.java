@@ -118,14 +118,6 @@ public class Upload extends AppCompatActivity {
             }
         });
 
-//        upload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                startPosting();
-//            }
-//        });
-
 
     }
 
