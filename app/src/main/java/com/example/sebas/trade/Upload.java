@@ -73,6 +73,10 @@ public class Upload extends AppCompatActivity {
                                 Intent timelineIntent = new Intent(Upload.this, Timeline.class);
                                 startActivity(timelineIntent);
                                 break;
+                            case R.id.ic_user_profile:
+                                Intent profileIntent = new Intent(Upload.this, ProfileActivity.class);
+                                startActivity(profileIntent);
+                                break;
                             default:
                                 break;
                         }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -25,11 +26,27 @@ public class Timeline extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() == null) {
+                    Intent loginIntent = new Intent(Timeline.this, RegisterActivity.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(loginIntent);
+
+                }
+            }
+        };
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Post");
 
@@ -54,6 +71,10 @@ public class Timeline extends AppCompatActivity {
                                 Intent timelineIntent = new Intent(Timeline.this, Timeline.class);
                                 startActivity(timelineIntent);
                                 break;
+                            case R.id.ic_user_profile:
+                                Intent profileIntent = new Intent(Timeline.this, ProfileActivity.class);
+                                startActivity(profileIntent);
+                                break;
                         }
 
 
@@ -66,6 +87,8 @@ public class Timeline extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        mAuth.addAuthStateListener(mAuthListener);
 
         FirebaseRecyclerAdapter<Post, PostViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
 
