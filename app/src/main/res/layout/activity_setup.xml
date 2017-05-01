@@ -11,11 +11,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.sebas.trade.Setup">
 
-    <ImageButton
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-        android:id="@+id/userImageButton"
+        android:id="@+id/userImageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:layout_below="@+id/userImageButton"
+        android:layout_below="@+id/userImageView"
         android:layout_marginTop="13dp"
         android:id="@+id/setupNameField"
         android:hint="Name"

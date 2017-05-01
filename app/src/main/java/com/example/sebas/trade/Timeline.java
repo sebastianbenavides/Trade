@@ -90,14 +90,14 @@ public class Timeline extends AppCompatActivity {
                         return false;
                     }
                 });
+
+        checkUserExist();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-
-        checkUserExist();
 
         mAuth.addAuthStateListener(mAuthListener);
 
