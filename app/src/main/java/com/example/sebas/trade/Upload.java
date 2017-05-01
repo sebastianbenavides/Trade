@@ -92,11 +92,7 @@ public class Upload extends AppCompatActivity {
         itemName = (EditText) findViewById(R.id.itemName);
         itemDescription = (EditText) findViewById(R.id.itemDescription);
 
-  //      uploadLayout = (RelativeLayout) findViewById(R.id.activity_upload);
-
         image = (ImageView) findViewById(R.id.imageButton);
-
-//        upload = (Button) findViewById(R.id.uploadButton);
 
         mProgress = new ProgressDialog(this);
 
@@ -128,6 +124,8 @@ public class Upload extends AppCompatActivity {
 
     }
 
+
+    //if all fields have been entered, post to database
     private void startPosting() {
 
         mProgress.setMessage("Uploading Swap");
@@ -166,6 +164,7 @@ public class Upload extends AppCompatActivity {
         }
     }
 
+    //after photo has been taken, post to firebase storage and download to show to user
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -194,6 +193,7 @@ public class Upload extends AppCompatActivity {
         }
     }
 
+    //helper for fileprovider for taking photo
     private File createPhotoFile() throws IOException {
         String imageFileName = "tempPhoto_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);

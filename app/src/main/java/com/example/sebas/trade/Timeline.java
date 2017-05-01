@@ -128,34 +128,37 @@ public class Timeline extends AppCompatActivity {
 
     private void checkUserExist() {
 
-        final String user_id;
+        if(mAuth.getCurrentUser() != null) {
 
-        if(mAuth.getInstance().getCurrentUser() == null){
-            Intent loginIntent = new Intent(Timeline.this, Login.class);
-            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(loginIntent);
-        } else{
+            final String user_id;
 
-            user_id = mAuth.getCurrentUser().getUid();
+            if (mAuth.getInstance().getCurrentUser() == null) {
+                Intent loginIntent = new Intent(Timeline.this, Login.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(loginIntent);
+            } else {
 
-            mDatabaseUsers.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                user_id = mAuth.getCurrentUser().getUid();
 
-                    if (!dataSnapshot.hasChild(user_id)) {
+                mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        Intent setupIntent = new Intent(Timeline.this, Setup.class);
-                        setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(setupIntent);
+                        if (!dataSnapshot.hasChild(user_id)) {
+
+                            Intent setupIntent = new Intent(Timeline.this, Setup.class);
+                            setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(setupIntent);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+                });
+            }
         }
     }
 
