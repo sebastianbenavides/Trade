@@ -3,6 +3,7 @@ package com.example.sebas.trade;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +27,7 @@ public class Profile extends AppCompatActivity {
     ImageView mProfilePicture;
     TextView mUsername, mUserEmail;
 
-    View mPostsLayout, mMessagesLayout;
+    LinearLayout mPostsLayout, mMessagesLayout;
 
     DatabaseReference mDatabaseUser;
 
@@ -87,11 +88,26 @@ public class Profile extends AppCompatActivity {
 
 
 
-                        for(DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        for(DataSnapshot Snapshot : dataSnapshot.getChildren()) {
 
-                            if(postSnapshot.getKey().toString().equals("posts")){
+                            if(Snapshot.getKey().toString().equals("posts")){
 
            //                     TextView post
+
+                            } else if(Snapshot.getKey().toString().equals("messages")) {
+
+                                for(DataSnapshot messageSnapShot : Snapshot.getChildren()) {
+
+                                    String messageText = messageSnapShot.getValue().toString();
+
+                                    TextView message = new TextView(getApplicationContext());
+                                    message.setText("- " + messageText);
+                                    message.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                                    message.setPadding(30, 5, 20, 5);
+                                    mMessagesLayout.addView(message);
+
+                                }
+
 
                             }
 

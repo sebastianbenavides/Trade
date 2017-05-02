@@ -86,7 +86,10 @@
                 android:layout_marginTop="30dp"
                 android:maxLines="6"
                 android:textColor="?attr/colorAccent"
-                android:textColorHint="@color/colorAccent"/>
+                android:textColorHint="@color/colorAccent"
+
+                android:background="@drawable/input_outine"
+                android:textAlignment="center" />
 
             <Button
                 android:text="Send Message"
