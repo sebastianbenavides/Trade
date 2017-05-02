@@ -3,8 +3,10 @@ package com.example.sebas.trade;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ public class Profile extends AppCompatActivity {
     LinearLayout mPostsLayout, mMessagesLayout;
 
     DatabaseReference mDatabaseUser;
+    DatabaseReference mDatebasePost;
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -51,6 +54,7 @@ public class Profile extends AppCompatActivity {
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatebasePost = FirebaseDatabase.getInstance().getReference().child("Post");
         mAuth = FirebaseAuth.getInstance();
 
         //if user clicks logout button, send them to login page
@@ -65,6 +69,33 @@ public class Profile extends AppCompatActivity {
                 }
             }
         };
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationHelper.disableShiftMode(bottomNavigationView);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.ic_camera:
+                                Intent uploadIntent = new Intent(Profile.this, Upload.class);
+                                startActivity(uploadIntent);
+                                break;
+                            case R.id.ic_timeline:
+                                Intent timelineIntent = new Intent(Profile.this, Timeline.class);
+                                startActivity(timelineIntent);
+                                break;
+                            case R.id.ic_user_profile:
+                                Intent profileIntent = new Intent(Profile.this, Profile.class);
+                                startActivity(profileIntent);
+                                break;
+                        }
+
+                        return false;
+                    }
+                });
 
 
         //the double use of a value event listener seems redundant, but in order for the picture to show...
@@ -87,14 +118,57 @@ public class Profile extends AppCompatActivity {
 
 
 
-
+                        //loop through users and their children
                         for(DataSnapshot Snapshot : dataSnapshot.getChildren()) {
 
-                            if(Snapshot.getKey().toString().equals("posts")){
+                            //if user has any posts, show the title on their profile activity
+                            if(Snapshot.getKey().equals("posts")){
 
-           //                     TextView post
+                                for(final DataSnapshot postSnapShot : Snapshot.getChildren()) {
 
-                            } else if(Snapshot.getKey().toString().equals("messages")) {
+                                    mDatebasePost.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                            final String postKey = postSnapShot.getValue().toString();
+                                            String postText = dataSnapshot.child(postKey).child("title").getValue().toString();
+
+                                            TextView post = new TextView(getApplicationContext());
+                                            post.setText("- " + postText);
+                                            post.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                                            post.setPadding(50, 5, 20, 5);
+
+                                            mPostsLayout.addView(post);
+
+                                            //long click to remove post
+                                            post.setOnLongClickListener(new View.OnLongClickListener() {
+                                                @Override
+                                                public boolean onLongClick(View v) {
+
+                                                    mDatabaseUser.child(mUser.getUid()).child("posts")
+                                                            .child(postSnapShot.getKey()).removeValue();
+                                                    //children have to be removed individually
+                                                    mDatebasePost.child(postKey).child("desc").removeValue();
+                                                    mDatebasePost.child(postKey).child("image").removeValue();
+                                                    mDatebasePost.child(postKey).child("title").removeValue();
+                                                    mDatebasePost.child(postKey).child("uid").removeValue();
+                                                    mDatebasePost.child(postKey).child("username").removeValue();
+
+                                                    Intent restartActivityIntent = new Intent(Profile.this, Profile.class);
+                                                    restartActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(restartActivityIntent);
+
+                                                    return false;
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+                            } else if(Snapshot.getKey().equals("messages")) {
 
                                 for(final DataSnapshot messageSnapShot : Snapshot.getChildren()) {
 
@@ -108,44 +182,36 @@ public class Profile extends AppCompatActivity {
 
                                     mMessagesLayout.addView(message);
 
+                                    //long click to remove message
                                     message.setOnLongClickListener(new View.OnLongClickListener() {
                                         @Override
                                         public boolean onLongClick(View v) {
 
                                             mDatabaseUser.child(mUser.getUid()).child("messages")
-                                                    .child(messageSnapShot.getKey().toString()).removeValue();
+                                                    .child(messageSnapShot.getKey()).removeValue();
 
 
                                             //when the item is deleted, it posts repeats of the messages until the view has been
+                                            //reset, maybe because of the valueeventlistener?
+                                            //maybe use addListenerForSingleValueEvent and update UI manually in successlistener?
                                             Intent restartActivityIntent = new Intent(Profile.this, Profile.class);
                                             restartActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(restartActivityIntent);
 
                                             return false;
-
                                         }
                                     });
-
                                 }
-
-
                             }
-
-
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
