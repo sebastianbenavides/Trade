@@ -73,12 +73,12 @@ public class Register extends AppCompatActivity {
 
                         DatabaseReference current_user_db = mDatabase.child(user_id);
 
-                        current_user_db.child("name").setValue(name);
-                        current_user_db.child("image").setValue("default");
+   //                     current_user_db.child("name").setValue(name);
+   //                     current_user_db.child("image").setValue("default");
 
                         mProgress.dismiss();
 
-                        Intent timelineIntent = new Intent(Register.this, Timeline.class);
+                        Intent timelineIntent = new Intent(Register.this, Setup.class);
                         timelineIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(timelineIntent);
                     }

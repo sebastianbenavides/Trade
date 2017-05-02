@@ -114,9 +114,21 @@ public class Timeline extends AppCompatActivity {
             @Override
             protected void populateViewHolder(PostViewHolder viewHolder, Post model, int position) {
 
+                final String post_key = getRef(position).getKey();
+
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setDesc(model.getDesc());
                 viewHolder.setImage(getApplicationContext(), model.getImage());
+                viewHolder.setUsername(model.getUsername());
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent individualPostIntent = new Intent(Timeline.this, IndividualPost.class);
+                        individualPostIntent.putExtra("Post_id", post_key);
+                        startActivity(individualPostIntent);
+                    }
+                });
 
             }
         };
@@ -190,6 +202,12 @@ public class Timeline extends AppCompatActivity {
 
             ImageView post_image = (ImageView) mView.findViewById(R.id.post_image);
             Picasso.with(context).load(image).fit().centerCrop().rotate(90).into(post_image);
+        }
+
+        public void setUsername(String username) {
+
+            TextView postUser = (TextView) mView.findViewById(R.id.post_username);
+            postUser.setText("Posted By: " + username);
         }
 
     }

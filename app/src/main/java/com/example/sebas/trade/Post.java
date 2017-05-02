@@ -9,15 +9,17 @@ public class Post {
     private String image;
     private String title;
     private String desc;
+    private String username;
 
     public Post() {
 
     }
 
-    public Post(String image, String title, String desc) {
+    public Post(String image, String title, String desc, String username) {
         this.image = image;
         this.title = title;
         this.desc = desc;
+        this.username = username;
     }
 
     public String getImage() {
@@ -42,6 +44,14 @@ public class Post {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUser(String user) {
+        this.username = username;
     }
 
 
