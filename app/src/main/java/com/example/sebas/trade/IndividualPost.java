@@ -104,7 +104,7 @@ public class IndividualPost extends AppCompatActivity {
             }
         });
 
-
+        //send message directly to the person who made the post
         mMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -144,6 +144,8 @@ public class Upload extends AppCompatActivity {
 
 
     //if all fields have been entered, post to database
+    //store everything but picture in database
+    //picture is in firebase storage with a url to it in the firebase database
     private void startPosting() {
 
         mProgress.setMessage("Uploading Swap");

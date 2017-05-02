@@ -156,6 +156,8 @@ public class Timeline extends AppCompatActivity {
     }
 
 
+    //if user isnt logged in or isnt authenticated, send them to the login page
+    //if user has registered but hast created an account, send them to setup
     private void checkUserExist() {
 
         if(mAuth.getCurrentUser() != null) {

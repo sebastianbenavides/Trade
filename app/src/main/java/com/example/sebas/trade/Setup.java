@@ -100,6 +100,10 @@ public class Setup extends AppCompatActivity {
 
     }
 
+
+    //have authenticated users take a profile picture and set a display name
+    //store picture in firebase storage
+    //store username and url to picture in firebase database
     private void startSetupAccount() {
 
         final String name = mSetupName.getText().toString().trim();

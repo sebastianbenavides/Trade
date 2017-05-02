@@ -52,13 +52,14 @@ public class Register extends AppCompatActivity {
 
     }
 
+    //authenticate user with firebase
+    //send the to timeline, which will send them to account setup
     private void startRegister() {
 
-        final String name = mNameField.getText().toString().trim();
         String email = mEmailField.getText().toString().trim();
         String password = mPasswordField.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+        if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             mProgress.setMessage("Signing Up...");
             mProgress.show();
@@ -72,9 +73,6 @@ public class Register extends AppCompatActivity {
                         String user_id = mAuth.getCurrentUser().getUid();
 
                         DatabaseReference current_user_db = mDatabase.child(user_id);
-
-   //                     current_user_db.child("name").setValue(name);
-   //                     current_user_db.child("image").setValue("default");
 
                         mProgress.dismiss();
 
