@@ -53,6 +53,7 @@ public class Upload extends AppCompatActivity {
     private StorageReference mStorage;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUser;
+    private DatabaseReference mUser;
 
     private ProgressDialog mProgress;
 
@@ -104,6 +105,7 @@ public class Upload extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Post");
         mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
+        mUser = FirebaseDatabase.getInstance().getReference().child("Users");
 
         itemName = (EditText) findViewById(R.id.itemName);
         itemDescription = (EditText) findViewById(R.id.itemDescription);
@@ -161,6 +163,8 @@ public class Upload extends AppCompatActivity {
                     final Uri downloadUri = taskSnapshot.getDownloadUrl();
 
                     final DatabaseReference newPost = mDatabase.push();
+     //               final DatabaseReference keyPost = mDatabaseUser;
+                    final String postKey = newPost.getKey();
 
                     mDatabaseUser.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -177,6 +181,8 @@ public class Upload extends AppCompatActivity {
                                         itemName.setText("");
                                         itemDescription.setText("");
                                         image.setImageResource(R.drawable.ic_add_a_photo_white_24dp);
+
+
                                     } else {
                                         Toast.makeText(Upload.this, "Error Posting", Toast.LENGTH_SHORT).show();
                                     }
@@ -191,9 +197,8 @@ public class Upload extends AppCompatActivity {
                         }
                     });
 
+                    mDatabaseUser.child("posts").push().setValue(postKey);
                     mProgress.dismiss();
-
-
 
 
 

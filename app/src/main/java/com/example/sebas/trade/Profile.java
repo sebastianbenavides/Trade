@@ -6,14 +6,32 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class Profile extends AppCompatActivity {
 
     Button mLogout;
 
+    ImageView mProfilePicture;
+    TextView mUsername, mUserEmail;
+
+    View mPostsLayout, mMessagesLayout;
+
+    DatabaseReference mDatabaseUser;
+
     FirebaseAuth mAuth;
+    FirebaseUser mUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -21,7 +39,20 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
+        mPostsLayout = (LinearLayout) findViewById(R.id.posts_Layout);
+        mMessagesLayout = (LinearLayout) findViewById(R.id.messages_Layout);
+
+        mProfilePicture = (ImageView) findViewById(R.id.profilePicture);
+
+        mUsername = (TextView) findViewById(R.id.profile_username);
+        mUserEmail = (TextView) findViewById(R.id.profile_email);
+
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users");
         mAuth = FirebaseAuth.getInstance();
+
+        //if user clicks logout button, send them to login page
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -33,6 +64,55 @@ public class Profile extends AppCompatActivity {
                 }
             }
         };
+
+
+        //the double use of a value event listener seems redundant, but in order for the picture to show...
+        //two listeners were needed to trigger the event... not sure why
+        mDatabaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mDatabaseUser.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        String user_Pic = dataSnapshot.child("image").getValue().toString();
+                        String user_Name = dataSnapshot.child("name").getValue().toString();
+                        String user_Email = mUser.getEmail();
+
+                        Picasso.with(Profile.this).load(user_Pic).fit().centerCrop().rotate(270).into(mProfilePicture);
+                        mUsername.setText(user_Name);
+                        mUserEmail.setText(user_Email);
+
+
+
+
+
+                        for(DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                            if(postSnapshot.getKey().toString().equals("posts")){
+
+           //                     TextView post
+
+                            }
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         mLogout = (Button) findViewById(R.id.logoutButton);
 
@@ -52,6 +132,7 @@ public class Profile extends AppCompatActivity {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
+    //sign out of firebase and app
     private void logout() {
         mAuth.signOut();
     }

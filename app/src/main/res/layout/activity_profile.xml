@@ -25,12 +25,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-                android:id="@+id/imageView" />
+                android:id="@+id/profilePicture" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/individualNameField"
+                android:id="@+id/profile_username"
                 android:layout_margin="10dp"
                 android:textColor="?attr/colorAccent"
                 android:textColorHint="@color/colorAccent"/>
@@ -38,11 +38,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/individualDescField"
+                android:id="@+id/profile_email"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:textColor="?attr/colorAccent"
                 android:textColorHint="@color/colorAccent"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/posts_Layout">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/messages_Layout"></LinearLayout>
 
             <Button
                 android:text="Logout"
@@ -50,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="71dp"
+                android:layout_marginTop="30dp"
                 android:id="@+id/logoutButton"/>
         </LinearLayout>
     </ScrollView>

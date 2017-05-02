@@ -1,10 +1,15 @@
 package com.example.sebas.trade;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +26,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Timeline extends AppCompatActivity {
@@ -39,6 +47,16 @@ public class Timeline extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+
+        if (Build.VERSION.SDK_INT < 23) {
+            //Do not need to check the permission
+        } else {
+            if (checkAndRequestPermissions()) {
+                //If you have already permitted the permission
+            }
+        }
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -101,7 +119,7 @@ public class Timeline extends AppCompatActivity {
 
         mAuth.addAuthStateListener(mAuthListener);
 
-
+        //add cards to recyclerview
         FirebaseRecyclerAdapter<Post, PostViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
 
                 Post.class,
@@ -174,6 +192,34 @@ public class Timeline extends AppCompatActivity {
         }
     }
 
+    //check to see if permissions are enabled, prompt user to enable if not
+    private boolean checkAndRequestPermissions() {
+        int permissionLocation = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA);
+
+
+        int storagePermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+
+
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (storagePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this,
+                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 1);
+            return false;
+        }
+
+        return true;
+    }
+
+    //private nested receyclerview class to hold cardviews
     public static class PostViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -211,5 +257,7 @@ public class Timeline extends AppCompatActivity {
         }
 
     }
+
+
 
 }

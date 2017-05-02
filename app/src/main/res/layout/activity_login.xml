@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/gradient"
     tools:context="com.example.sebas.trade.Login">
 
     <EditText
@@ -20,6 +21,8 @@
         android:layout_marginTop="44dp"
         android:id="@+id/loginEmailField"
         android:hint="Email"
+        android:textColor="?attr/colorAccent"
+        android:textColorHint="@color/colorAccent"
         android:layout_alignParentEnd="true" />
 
     <EditText
@@ -31,6 +34,8 @@
         android:layout_below="@+id/loginEmailField"
         android:layout_alignParentStart="true"
         android:hint="Password"
+        android:textColor="?attr/colorAccent"
+        android:textColorHint="@color/colorAccent"
         android:layout_alignParentEnd="true" />
 
     <Button
@@ -49,6 +54,8 @@
         android:layout_marginBottom="46dp"
         android:id="@+id/noAcctText"
         android:layout_alignBottom="@+id/createAcctButton"
+        android:textColor="?attr/colorAccent"
+        android:textColorHint="@color/colorAccent"
         android:layout_centerHorizontal="true" />
 
     <Button

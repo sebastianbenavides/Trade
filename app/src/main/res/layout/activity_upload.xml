@@ -37,7 +37,7 @@
         android:ems="10"
         android:gravity="center_vertical|center"
         android:hint="@string/what_s_your_item_like"
-        android:inputType="textCapSentences"
+        android:inputType="textCapSentences|textMultiLine"
         android:padding="15dp"
         android:text=""
         android:textColorHint="@color/colorAccent"

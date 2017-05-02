@@ -76,7 +76,6 @@ public class Setup extends AppCompatActivity {
 
 
 
-                //Intent galleryIntent = new Intent(Intent.)
 
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -93,8 +92,6 @@ public class Setup extends AppCompatActivity {
                 if (photoFile != null) {
                     imageUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.android.fileprovider", photoFile);
                     galleryIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-         //           galleryIntent.setType("images/*");
-
                     startActivityForResult(galleryIntent, GALLERY_REQUEST);
                 }
 
@@ -143,13 +140,6 @@ public class Setup extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
-
-/*            imageUri = data.getData();
-
-            CropImage.activity(imageUri)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(1,1)
-                    .start(this);*/
 
             Picasso.with(Setup.this).load(imageUri).fit().centerCrop().rotate(270).into(mSetupImage);
         }
