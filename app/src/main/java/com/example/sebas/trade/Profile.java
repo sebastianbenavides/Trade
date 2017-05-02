@@ -74,7 +74,7 @@ public class Profile extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mDatabaseUser.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
 
                         String user_Pic = dataSnapshot.child("image").getValue().toString();
                         String user_Name = dataSnapshot.child("name").getValue().toString();
@@ -96,15 +96,35 @@ public class Profile extends AppCompatActivity {
 
                             } else if(Snapshot.getKey().toString().equals("messages")) {
 
-                                for(DataSnapshot messageSnapShot : Snapshot.getChildren()) {
+                                for(final DataSnapshot messageSnapShot : Snapshot.getChildren()) {
 
                                     String messageText = messageSnapShot.getValue().toString();
 
                                     TextView message = new TextView(getApplicationContext());
                                     message.setText("- " + messageText);
                                     message.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                                    message.setPadding(30, 5, 20, 5);
+                                    message.setPadding(50, 5, 20, 5);
+
+
                                     mMessagesLayout.addView(message);
+
+                                    message.setOnLongClickListener(new View.OnLongClickListener() {
+                                        @Override
+                                        public boolean onLongClick(View v) {
+
+                                            mDatabaseUser.child(mUser.getUid()).child("messages")
+                                                    .child(messageSnapShot.getKey().toString()).removeValue();
+
+
+                                            //when the item is deleted, it posts repeats of the messages until the view has been
+                                            Intent restartActivityIntent = new Intent(Profile.this, Profile.class);
+                                            restartActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(restartActivityIntent);
+
+                                            return false;
+
+                                        }
+                                    });
 
                                 }
 
